@@ -1,10 +1,11 @@
 [build-system]
-requires = ["rosettasciio[all]>=0.6", "setuptools>=61.0"]
+requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "convert-emd"
-version = "0.1.0"
+version = "0.1.1"
+dependencies = ["rosettasciio[all]>=0.6"]
 authors = [
   { name="Bing-Liang Leng", email="leng.bl@sjtu.edu.cn" },
 ]
