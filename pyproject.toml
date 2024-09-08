@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "convert-emd"
-version = "0.1.0."
+version = "0.1.0"
 authors = [
   { name="Bing-Liang Leng", email="leng.bl@sjtu.edu.cn" },
 ]
