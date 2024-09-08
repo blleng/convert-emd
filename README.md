@@ -4,47 +4,39 @@ This script converts 2D signal in .emd files into images.
 
 This project is based on [RosettaSciIO](https://github.com/hyperspy/rosettasciio) and [emd-converter](https://github.com/matao1984/emd-converter)
 
-## Environment Requirenments
+## Install
 
-`Python >= 3.8`
-
-### Dependencies
-
-With conda:
-
-```bash
-conda install -c conda-forge rosettasciio
-```
+Environment requirenments: `Python >= 3.8`
 
 With pip:
 
 ```bash
-pip install rosettasciio[all]
+pip install convert-emd
 ```
 
 ## Usage
 
 ```bash
-cemd.py [-h] -f FILE [-o TYPE] [-ns] [-sc COLOR] [-s FLOAT FLOAT FLOAT] [-e Str [Str ...]] [-oe ELEMENT [ELEMENT ...]] [-oa ALPHA] [-sa ALPHA] [-c CONTRAST] [-i INT INT]
+cemd [-h] -f FILE [-o TYPE] [-ns] [-sc COLOR] [-s FLOAT FLOAT FLOAT] [-e Str [Str ...]] [-oe ELEMENT [ELEMENT ...]] [-oa ALPHA] [-sa ALPHA] [-c CONTRAST] [-i INT INT]
 ```
 
 ### Basic Usage
 
 ```bash
-cemd.py -f INPUT_FILE
+cemd -f INPUT_FILE
 ```
 
-Run `cemd.py -h` for more information.
+Run `cemd -h` for more information.
 
-NOTICE: ".emd" extension should not be included into input filename. For example, if you want to convert "EXEAMPLE.emd", the input should be `cemd.py -f EXAMPLE` rather than `cemd.py -f EXAMPLE.emd`
+NOTICE: ".emd" extension should not be included into input filename. For example, if you want to convert "EXEAMPLE.emd", the input should be `cemd -f EXAMPLE` rather than `cemd -f EXAMPLE.emd`
 
 ### Output Type
 
 The `-o`/`--out` option allows users to choose the output image type (default: png).
 
 ```bash
-cemd.py -f INPUT_FILE -o png ## For PNG type
-cemd.py -f INPUT_FILE -o tif ## For TIF type
+cemd -f INPUT_FILE -o png ## For PNG type
+cemd -f INPUT_FILE -o tif ## For TIF type
 ...
 ```
 
@@ -55,7 +47,7 @@ cemd.py -f INPUT_FILE -o tif ## For TIF type
 The `-ns`/`--no_scale` option can be used to remove the scale bar in images.
 
 ```bash
-cemd.py -f INPUT_FILE -ns ## No scale bar will be shown
+cemd -f INPUT_FILE -ns ## No scale bar will be shown
 ```
 
 #### Color of Scale Bar
@@ -63,8 +55,8 @@ cemd.py -f INPUT_FILE -ns ## No scale bar will be shown
 The `-sc`/`--scale_color` option can be used to choose the color of the scale bar (default: white).
 
 ```bash
-cemd.py -f INPUT_FILE -sc black ## Black scale bar
-cemd.py -f INPUT_FILE -sc "#000000" ## Hex code can also be used
+cemd -f INPUT_FILE -sc black ## Black scale bar
+cemd -f INPUT_FILE -sc "#000000" ## Hex code can also be used
 ```
 
 #### Position and Width of Scale Bar
@@ -72,7 +64,7 @@ cemd.py -f INPUT_FILE -sc "#000000" ## Hex code can also be used
 The `-s`/`--scale` option can be used to adjust the postion and width of scale bar (default: x: 0.75, y: 0.9167, width-factor: 150)
 
 ```bash
-cemd.py -f INPUT_FILE -s X Y WIDTH
+cemd -f INPUT_FILE -s X Y WIDTH
 ```
 
 NOTICE: Three arguments are required to specify the position and width of scale bar.
@@ -88,7 +80,7 @@ NOTICE: Three arguments are required to specify the position and width of scale 
 The `-e`/`--eds` option allow users to specify the color of elemental mappings (default: gray).
 
 ```bash
-cemd.py -f INPUT_FILE -e ELEMENT_1 COLOR_1 ELEMENT_2 COLOR_2 ELEMENT_3 COLOR_3 ...
+cemd -f INPUT_FILE -e ELEMENT_1 COLOR_1 ELEMENT_2 COLOR_2 ELEMENT_3 COLOR_3 ...
 ```
 
 #### Overlayed Mapping
@@ -96,7 +88,7 @@ cemd.py -f INPUT_FILE -e ELEMENT_1 COLOR_1 ELEMENT_2 COLOR_2 ELEMENT_3 COLOR_3 .
 The `-oe`/`--overlay` option decides which elements are overlyed.
 
 ```bash
-cemd.py -f INPUT_FILE -oe ELEMENT_1 ElEMENT_2 ...
+cemd -f INPUT_FILE -oe ELEMENT_1 ElEMENT_2 ...
 ```
 
 NOTICE: The colors in the overlayed mapping are corresponding to the color specified by the `-e` option.
@@ -110,10 +102,5 @@ To improve the contrast (especially for HR-TEM), the `-c`/`--contrast` option is
 With this method, the image is rescaled to include all intensities that fall within the given percentiles (default: min = 1, max = 99).
 
 ```bash
-cemd.py -f INPUT_FILE -c MIN MAX
+cemd -f INPUT_FILE -c MIN MAX
 ```
-The following example shows how this method helps when the picture contains noises with too high intensity:
-
-|Without Treatment|After Treatment|
-|-----------------|---------------|
-|![without-treatment](example-images/withou-treatment.png)|![treated-picture](example-images/treated-pic.png)|
