@@ -124,4 +124,4 @@ cemd.py -f INPUT_FILE -c LOWEST HIGHEST
 Example:
 |Without Treatment|Treated Picture|
 |-----------------|---------------|
-|!(without-treatment)[example-images/withou-treatment.png]|!(treated-picture)[example-images/treated-pic.png]|
+|![without-treatment](example-images/withou-treatment.png)|![treated-picture](example-images/treated-pic.png)|
