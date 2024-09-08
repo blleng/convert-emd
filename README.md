@@ -105,7 +105,7 @@ Moreover, `-oa`/`--overlay_alpha` and `-sa`/`--substrate_alpha` options are prov
 
 ### Contrast (Histogram Equalization)
 
-To improve the contrast (especially for HR-TEM), the `-c`/`--contrast` option is provided to introduce the *scikit-image* [histogram equalization](https://scikit-image.org/docs/stable/auto_examples/color_exposure/plot_equalize.html) method with *contrast streching*.
+To improve the contrast (especially for HR-TEM), the `-c`/`--contrast` option is provided to introduce the *scikit-image* [histogram equalization](https://scikit-image.org/docs/stable/auto_examples/color_exposure/plot_equalize.html) method with *contrast stretching*.
 
 With this method, the image is rescaled to include all intensities that fall within the given percentiles (default: min = 1, max = 99).
 

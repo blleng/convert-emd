@@ -52,7 +52,7 @@ def convert_emd():
         title = frame["metadata"]["General"]["title"]
 
         if dim == 2:
-            low_constrain, high_constrain = np.percentile(frame["data"], (strech[0], strech[1]))
+            low_constrain, high_constrain = np.percentile(frame["data"], (stretch[0], stretch[1]))
             frame["data"] = exposure.rescale_intensity(frame["data"], in_range=(low_constrain, high_constrain))
 
             cmp = "gray"
@@ -124,7 +124,7 @@ if __name__ == "__main__":
     parser.add_argument("-oe", "--overlay", type = str, nargs = "+", metavar = "ELEMENT", help = "The elements for overlayed mapping", default = [])
     parser.add_argument("-oa", "--overlay_alpha", type = float, metavar = "ALPHA", help = "Transparency of the overlayed elemental mapping (a value between 0 and 1, 0 means totally transparent)", default = "1.0")
     parser.add_argument("-sa", "--substrate_alpha", type = float, metavar = "ALPHA", help = "Transparency of the HAADF substrate picture in elemental mapping (a value between 0 and 1, 0 means totally transparent).", default = "0.5")
-    parser.add_argument("-c", "--contrast_streching", type = float, nargs = 2, metavar = "CONTRAST", help = "The parameter for contrast streaching, where the image is rescaled to include all intensities that fall within the given percentiles", default = [1, 99])
+    parser.add_argument("-c", "--contrast_stretching", type = float, nargs = 2, metavar = "CONTRAST", help = "The parameter for contrast streaching, where the image is rescaled to include all intensities that fall within the given percentiles", default = [1, 99])
     args = parser.parse_args()
 
     file = args.file
@@ -139,7 +139,7 @@ if __name__ == "__main__":
     sb_y_start = args.scale[1]
     sb_width_factor = args.scale[2]
 
-    strech = args.contrast_streching
+    stretch = args.contrast_stretching
 
     overlay_alpha = args.overlay_alpha
     sub_alpha = args.substrate_alpha
