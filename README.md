@@ -105,23 +105,15 @@ Moreover, `-oa/--overlay_alpha` and `-sa/--substrate_alpha` options are provided
 
 ### Contrast (Adaptive Equalization)
 
-To improve the contrast (especially for HR-TEM), the `-c/--contrast` option is provided to introduce the *scikit-image* [adaptive equalization](https://scikit-image.org/docs/stable/auto_examples/color_exposure/plot_equalize.html) method.
+To improve the contrast (especially for HR-TEM), the `-c/--contrast` option is provided to introduce the *scikit-image* [histogram equalization](https://scikit-image.org/docs/stable/auto_examples/color_exposure/plot_equalize.html) method with *contrast streching*.
+
+With this method, the image is rescaled to include all intensities that fall within the given percentiles (default: min = 1, max = 99).
 
 ```bash
-cemd.py -f INPUT_FILE -c 0.015
+cemd.py -f INPUT_FILE -c MIN MAX
 ```
+The following example shows how this method helps when the picture contains noises with too high intensity:
 
-NOTICE: The argument should be a float number between 0 and 1, higher value gives higher contrast.
-
-### Noises Treatment
-
-The noises with too high/low intensity may induce rather low contrast sometimes. The `-i/--intensity_range` option can be used to specify the range of intensity of the pixel for the rescaling process, where the intensity lower than the given lowest value and intensity higher than the given highest value will be constrained.
-
-```bash
-cemd.py -f INPUT_FILE -i LOWEST HIGHEST
-```
-
-Example:
-|Without Treatment|Treated Picture|
+|Without Treatment|After Treatment|
 |-----------------|---------------|
 |![without-treatment](example-images/withou-treatment.png)|![treated-picture](example-images/treated-pic.png)|
