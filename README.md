@@ -91,7 +91,7 @@ The `-e`/`--eds` option allow users to specify the color of elemental mappings (
 cemd.py -f INPUT_FILE -e ELEMENT_1 COLOR_1 ELEMENT_2 COLOR_2 ELEMENT_3 COLOR_3 ...
 ```
 
-#### Overlayed mapping
+#### Overlayed Mapping
 
 The `-oe`/`--overlay` option decides which elements are overlyed.
 
@@ -103,7 +103,7 @@ NOTICE: The colors in the overlayed mapping are corresponding to the color speci
 
 Moreover, `-oa`/`--overlay_alpha` and `-sa`/`--substrate_alpha` options are provided to adjust the transparency of elemental layers (default: 1.0) and the HAADF layer (default: 0.5) respectively. The argument should be a float number between 0 and 1, 0 means totally transparent.
 
-### Contrast (Adaptive Equalization)
+### Contrast (Histogram Equalization)
 
 To improve the contrast (especially for HR-TEM), the `-c`/`--contrast` option is provided to introduce the *scikit-image* [histogram equalization](https://scikit-image.org/docs/stable/auto_examples/color_exposure/plot_equalize.html) method with *contrast streching*.
 
