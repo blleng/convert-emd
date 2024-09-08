@@ -14,9 +14,8 @@ Run "cemd.py -h" for more information
 
 import os
 import argparse
-import hyperspy.api as hs
-from skimage import exposure, img_as_ubyte
-from PIL import Image
+from rsciio.emd import file_reader
+from skimage import exposure
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 
@@ -27,8 +26,8 @@ def transparent_single_color_cmap(color):
 
 def draw_scale_bar(frame, size_x, size_y, width_factor, sb_color):
     sb_lst = [0.1,0.2,0.5,1,2,5,10,20,50,100,200,500,1000,2000,5000]
-    scale = frame.axes_manager[0].scale
-    unit = frame.axes_manager[0].units
+    scale = frame["axes"][1]["scale"]
+    unit = frame["axes"][1]["units"]
     sb_len_float = size_x * scale / 6
     sb_len = sorted(sb_lst, key=lambda a: abs(a - sb_len_float))[0]
     sb_len_px = sb_len / scale
@@ -39,7 +38,7 @@ def draw_scale_bar(frame, size_x, size_y, width_factor, sb_color):
 def convert_emd():
     output_dir = file + "/"
     output_name = output_dir + file + "_"
-    data = list(hs.load(file + ".emd"))
+    data = file_reader(file + ".emd")
 
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
@@ -48,32 +47,28 @@ def convert_emd():
 
     for i in range(len(data)):
         frame = data[i]
-        dim = frame.axes_manager.signal_dimension
-        title = frame.metadata.General.title
+        dim = frame["data"].ndim
+        title = frame["metadata"]["General"]["title"]
 
         if dim == 2:
-            rescale_data = exposure.rescale_intensity(frame.data, in_range=intensity_range)
+            frame["data"] = exposure.rescale_intensity(frame["data"], in_range=intensity_range)
             if ada_equ:
-                uimg = img_as_ubyte(exposure.equalize_adapthist(rescale_data, clip_limit=contrast))
-            else:
-                uimg = img_as_ubyte(rescale_data)
-            img = Image.fromarray(uimg)
+                frame["data"] = exposure.equalize_adapthist(frame["data"], clip_limit=contrast)
 
             cmp = "gray"
             if title in eds_color:
                 cmp = transparent_single_color_cmap(eds_color.get(title))
                 if title in mapping_overlay:
-                    mapping_frame.append([title, img])
+                    mapping_frame.append(i)
                     overlay = True
             elif overlay and title == "HAADF":
-                mapping_frame.append([title, img])
+                mapping_frame.append(i)
                 HADDF_frame_num = len(mapping_frame) - 1
-                HADDF_frame = frame
             
-            size_x, size_y = img.size
+            size_x, size_y = (frame["axes"][1]["size"], frame["axes"][0]["size"])
             plt.figure(figsize=(size_x/100, size_y/100), facecolor="black")
             ax = plt.gca()
-            plt.imshow(img, cmap=cmp)
+            plt.imshow(frame["data"], cmap=cmp)
 
             if scale_bar == True:
                 bar = draw_scale_bar(frame, size_x, size_y, sb_width_factor, sb_color)
@@ -89,24 +84,23 @@ def convert_emd():
                 plt.savefig(output_name + title + "_" + str(i) + output_type)
             plt.close()
 
-        elif dim == 1:
-            frame.sum().save(output_name + title + "_" + str(i) + ".msa", overwrite = True)
-
     if overlay:
         element = ""
-        size_x, size_y = mapping_frame[HADDF_frame_num][1].size
+        HAADF_frame = data[mapping_frame[HADDF_frame_num]]
+        size_x, size_y = (HAADF_frame["axes"][1]["size"], HAADF_frame["axes"][0]["size"])
 
         plt.figure(figsize=(size_x/100, size_y/100), facecolor="black")
         ax = plt.gca()
-        plt.imshow(mapping_frame[HADDF_frame_num][1], cmap="gray", alpha=sub_alpha)
+        plt.imshow(HAADF_frame["data"], cmap="gray", alpha=sub_alpha)
         for i in range(len(mapping_frame)):
             if i == HADDF_frame_num:
                 continue
-            plt.imshow(mapping_frame[i][1], cmap=transparent_single_color_cmap(eds_color.get(mapping_frame[i][0])), alpha=overlay_alpha)
-            element = element + "_" + mapping_frame[i][0]
+            title = data[mapping_frame[i]]["metadata"]["General"]["title"]
+            plt.imshow(data[mapping_frame[i]]["data"], cmap=transparent_single_color_cmap(eds_color.get(title)), alpha=overlay_alpha)
+            element = element + "_" + title
         
         if scale_bar == True:
-            bar = draw_scale_bar(HADDF_frame, size_x, size_y, sb_width_factor, sb_color)
+            bar = draw_scale_bar(HAADF_frame, size_x, size_y, sb_width_factor, sb_color)
             ax.add_patch(bar[0])
             sb_text = bar[1]
 
