@@ -115,7 +115,7 @@ NOTICE: The argument should be a float number between 0 and 1, higher value give
 
 ### Noises Treatment
 
-The noises with too high/low intensity may induce rather low contrast sometimes. The `-i/--intensity_range` option can be used to specify the range of intensity of the pixel for the rescaling process, where the intensity lower than the given lowest value and intensity higher than the given highest value will be constrainted.
+The noises with too high/low intensity may induce rather low contrast sometimes. The `-i/--intensity_range` option can be used to specify the range of intensity of the pixel for the rescaling process, where the intensity lower than the given lowest value and intensity higher than the given highest value will be constrained.
 
 ```bash
 cemd.py -f INPUT_FILE -c LOWEST HIGHEST
