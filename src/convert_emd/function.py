@@ -21,6 +21,7 @@ def eds_elements(data):
     for i in range(len(data)):
         if data_signal_type(data[i]) == "":
             element.append(get_title(data[i]))
+    if len(element) > 0: element.remove("HAADF")
     return element
 
 def get_scale(frame):

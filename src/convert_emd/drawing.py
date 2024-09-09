@@ -11,7 +11,7 @@ def draw_scale_bar(frame, size_x, size_y, sb_x_start, sb_y_start, width_factor, 
     sb_start_x, sb_start_y, sb_width = (size_x * sb_x_start , size_y * sb_y_start, size_y / width_factor)
     return [plt.Rectangle((sb_start_x, sb_start_y), sb_len_px, sb_width, color=sb_color, fill=True), "_" + str(sb_len) + unit]
 
-def convert_emd(file_name, data, output_type, eds, scale_bar, sb_color, sb_x_start, sb_y_start, sb_width_factor, stretch, overlay_alpha, sub_alpha, eds_color, mapping_overlay, overlay):
+def convert_emd(file_name, data, output_type, scale_bar, sb_color, sb_x_start, sb_y_start, sb_width_factor, stretch, overlay_alpha, sub_alpha, eds_color, mapping_overlay, overlay):
     output_dir = file_name + "/"
     output_name = output_dir + file_name + "_"
 
@@ -39,6 +39,7 @@ def convert_emd(file_name, data, output_type, eds, scale_bar, sb_color, sb_x_sta
                 else:
                     cmp = emdfun.create_cmp(default_colors[ele])
                     ele += 1
+                    if ele > 9: ele = 0
                 if title in mapping_overlay:mapping_frame.append(i)
 
             size_x, size_y = (frame["axes"][1]["size"], frame["axes"][0]["size"])
