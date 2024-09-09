@@ -28,6 +28,7 @@ def main():
         ele_color = ele + 1
         eds_color[args.eds[ele]] = args.eds[ele_color]
     all_elements = emdfun.eds_elements(data)
+    mapping_overlay = []
     if len(all_elements):
         mapping_overlay = args.overlay if len(args.overlay) else all_elements
         overlay = True
