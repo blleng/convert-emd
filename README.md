@@ -85,7 +85,7 @@ cemd -f INPUT_FILE -e ELEMENT_1 COLOR_1 ELEMENT_2 COLOR_2 ELEMENT_3 COLOR_3 ...
 
 #### Overlayed Mapping
 
-The `-oe`/`--overlay` option decides which elements are overlyed.
+The `-oe`/`--overlay` option decides which elements are overlyed (default: all ).
 
 ```bash
 cemd -f INPUT_FILE -oe ELEMENT_1 ElEMENT_2 ...
