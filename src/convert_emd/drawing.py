@@ -38,6 +38,7 @@ def convert_emd(file_name, data, output_type, scale_bar, sb_color, sb_x_start, s
                     HAADF_frame_num = len(mapping_frame) - 1
                 else:
                     cmp = emdfun.create_cmp(default_colors[ele])
+                    eds_color[title] = default_colors[ele]
                     ele += 1
                     if ele > 9: ele = 0
 
