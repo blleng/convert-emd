@@ -37,6 +37,9 @@ def create_cmp(color):
         "", [mcolors.to_rgba(color, 0), mcolors.to_rgba(color, 1)]
     )
 
+def default_colors():
+    return list(mcolors.TABLEAU_COLORS.values())
+
 def contrast_stretch(frame, stretch):
     low_constrain, high_constrain = np.percentile(frame["data"], (stretch[0], stretch[1]))
     return exposure.rescale_intensity(frame["data"], in_range=(low_constrain, high_constrain))

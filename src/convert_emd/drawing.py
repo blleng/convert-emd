@@ -11,7 +11,7 @@ def draw_scale_bar(frame, size_x, size_y, sb_x_start, sb_y_start, width_factor, 
     sb_start_x, sb_start_y, sb_width = (size_x * sb_x_start , size_y * sb_y_start, size_y / width_factor)
     return [plt.Rectangle((sb_start_x, sb_start_y), sb_len_px, sb_width, color=sb_color, fill=True), "_" + str(sb_len) + unit]
 
-def convert_emd(file_name, data, output_type, eds, scale_bar, sb_color, sb_x_start, sb_y_start, sb_width_factor, stretch, overlay_alpha, sub_alpha, eds_color, mapping_overlay):
+def convert_emd(file_name, data, output_type, eds, scale_bar, sb_color, sb_x_start, sb_y_start, sb_width_factor, stretch, overlay_alpha, sub_alpha, eds_color, mapping_overlay, overlay):
     output_dir = file_name + "/"
     output_name = output_dir + file_name + "_"
 
@@ -19,6 +19,8 @@ def convert_emd(file_name, data, output_type, eds, scale_bar, sb_color, sb_x_sta
         os.makedirs(output_dir)
     mapping_frame = []
     overlay = False
+    ele = 0
+    default_colors = emdfun.default_colors()
 
     for i in range(len(data)):
         frame = data[i]
@@ -28,14 +30,16 @@ def convert_emd(file_name, data, output_type, eds, scale_bar, sb_color, sb_x_sta
         if dim == 2:
             frame["data"] = emdfun.contrast_stretch(frame, stretch)
             cmp = "gray"
-            if eds:
-                overlay == True
+            if overlay and not emdfun.is_eds_spectrum(frame):
                 if title in eds_color:
                     cmp = emdfun.create_cmp(eds_color.get(title))
-                    if title in mapping_overlay: mapping_frame.append(i)
                 elif title == "HAADF":
                     mapping_frame.append(i)
                     HAADF_frame_num = len(mapping_frame) - 1
+                else:
+                    cmp = emdfun.create_cmp(default_colors[ele])
+                    ele += 1
+                if title in mapping_overlay:mapping_frame.append(i)
 
             size_x, size_y = (frame["axes"][1]["size"], frame["axes"][0]["size"])
             plt.figure(figsize=(size_x/100, size_y/100), facecolor="black")

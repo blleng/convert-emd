@@ -28,9 +28,11 @@ def main():
         ele = i * 2
         ele_color = ele + 1
         eds_color[args.eds[ele]] = args.eds[ele_color]
-    if eds:
-        mapping_overlay = args.overlay if len(args.overlay) else emdfun.eds_elements(data)
+    all_elements = emdfun.eds_elements(data)
+    if eds and len(all_elements):
+        mapping_overlay = args.overlay if len(args.overlay) else all_elements
+        overlay = True
     else:
-        mapping_overlay = []
+        overlay = False
 
-    draw.convert_emd(file_name, data, output_type, eds, scale_bar, sb_color, sb_x_start, sb_y_start, sb_width_factor, stretch, overlay_alpha, sub_alpha, eds_color, mapping_overlay)
+    draw.convert_emd(file_name, data, output_type, eds, scale_bar, sb_color, sb_x_start, sb_y_start, sb_width_factor, stretch, overlay_alpha, sub_alpha, eds_color, mapping_overlay, overlay)
