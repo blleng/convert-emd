@@ -3,7 +3,7 @@ import convert_emd.function as emdfun
 import convert_emd.drawing as draw
 
 def main():
-    args = com.parse.parse_args()
+    args = com.parse().parse_args()
 
     file_name = args.file
     data = emdfun.get_data(file_name)

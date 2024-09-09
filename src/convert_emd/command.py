@@ -85,3 +85,5 @@ def parse():
         help = "The parameter for contrast streaching, where the image is rescaled to include all intensities that fall within the given percentiles",
         default = [1, 99]
     )
+
+    return parser
