@@ -6,7 +6,7 @@ This project is based on [RosettaSciIO](https://github.com/hyperspy/rosettasciio
 
 ## Install
 
-Environment requirenments: `Python >= 3.8`
+Environment requirements: `Python >= 3.8`
 
 With pip:
 
@@ -77,21 +77,25 @@ NOTICE: Three arguments are required to specify the position and width of scale 
 
 #### Color of Elements
 
-The `-e`/`--eds` option allow users to specify the color of elemental mappings (default: gray).
+Default colors of elemental mapppings are corresponding to the following list in sequnce (*Matplotlib* default colors):
+
+'<font color=#1f77b4>#1f77b4</font>', '<font color=#ff7f0e>#ff7f0e</font>', '<font color=#2ca02c>#2ca02c</font>', '<font color=#d62728>#d62728</font>', '<font color=#9467bd>#9467bd</font>', '<font color=#8c564b>#8c564b</font>', '<font color=#e377c2>#e377c2</font>', <font color=7f7f7f>7f7f7f</font>', '<font color=#bcbd22>#bcbd22</font>', '<font color=#17becf>#17becf</font>'
+
+Convert-EMD provides `-e`/`--eds` option for users to customize the color of elemental mappings.
 
 ```bash
 cemd -f INPUT_FILE -e ELEMENT_1 COLOR_1 ELEMENT_2 COLOR_2 ELEMENT_3 COLOR_3 ...
 ```
 
+NOTICE: You don't need to specify all elemental colors, those undefined ones will be set according to the default color list.
+
 #### Overlayed Mapping
 
-The `-oe`/`--overlay` option decides which elements are overlyed (default: all ).
+The `-oe`/`--overlay` option decides which elements are overlyed (default: all).
 
 ```bash
 cemd -f INPUT_FILE -oe ELEMENT_1 ElEMENT_2 ...
 ```
-
-NOTICE: The colors in the overlayed mapping are corresponding to the color specified by the `-e` option.
 
 Moreover, `-oa`/`--overlay_alpha` and `-sa`/`--substrate_alpha` options are provided to adjust the transparency of elemental layers (default: 1.0) and the HAADF layer (default: 0.5) respectively. The argument should be a float number between 0 and 1, 0 means totally transparent.
 
