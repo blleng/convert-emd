@@ -18,7 +18,6 @@ def convert_emd(file_name, data, output_type, scale_bar, sb_color, sb_x_start, s
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
     mapping_frame = []
-    overlay = False
     ele = 0
     default_colors = emdfun.default_colors()
 
@@ -31,8 +30,9 @@ def convert_emd(file_name, data, output_type, scale_bar, sb_color, sb_x_start, s
             frame["data"] = emdfun.contrast_stretch(frame, stretch)
             cmp = "gray"
             if overlay and not emdfun.is_eds_spectrum(frame):
+                if title in mapping_overlay: mapping_frame.append(i)
                 if title in eds_color:
-                    cmp = emdfun.create_cmp(eds_color.get(title))
+                    cmp = emdfun.create_cmp(eds_color[title])
                 elif title == "HAADF":
                     mapping_frame.append(i)
                     HAADF_frame_num = len(mapping_frame) - 1
@@ -40,7 +40,6 @@ def convert_emd(file_name, data, output_type, scale_bar, sb_color, sb_x_start, s
                     cmp = emdfun.create_cmp(default_colors[ele])
                     ele += 1
                     if ele > 9: ele = 0
-                if title in mapping_overlay:mapping_frame.append(i)
 
             size_x, size_y = (frame["axes"][1]["size"], frame["axes"][0]["size"])
             plt.figure(figsize=(size_x/100, size_y/100), facecolor="black")
@@ -73,7 +72,7 @@ def convert_emd(file_name, data, output_type, scale_bar, sb_color, sb_x_start, s
             if i == HAADF_frame_num:
                 continue
             title = emdfun.get_title(data[mapping_frame[i]])
-            plt.imshow(data[mapping_frame[i]]["data"], cmap = emdfun.create_cmp(eds_color.get(title)), alpha = overlay_alpha)
+            plt.imshow(data[mapping_frame[i]]["data"], cmap = emdfun.create_cmp(eds_color[title]), alpha = overlay_alpha)
             element = element + "_" + title
 
         if scale_bar == True:
