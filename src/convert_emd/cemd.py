@@ -7,7 +7,6 @@ def main():
 
     file_name = args.file
     data = emdfun.get_data(file_name)
-    eds = emdfun.is_eds(data)
     output_type = "." + args.out
 
     if args.no_scale:
@@ -29,7 +28,8 @@ def main():
         ele_color = ele + 1
         eds_color[args.eds[ele]] = args.eds[ele_color]
     all_elements = emdfun.eds_elements(data)
-    if eds and len(all_elements):
+    mapping_overlay = []
+    if len(all_elements):
         mapping_overlay = args.overlay if len(args.overlay) else all_elements
         overlay = True
     else:
