@@ -18,10 +18,11 @@ def is_eds_spectrum(frame):
 
 def eds_elements(data):
     element = []
-    for i in range(len(data)):
-        if data_signal_type(data[i]) == "":
-            element.append(get_title(data[i]))
-    if len(element) > 0: element.remove("HAADF")
+    if is_eds(data):
+        for i in range(len(data)):
+            if data_signal_type(data[i]) == "":
+                element.append(get_title(data[i]))
+        if len(element) > 0: element.remove("HAADF")
     return element
 
 def get_scale(frame):
