@@ -13,8 +13,8 @@ def is_eds(data):
     return is_eds_spectrum(data[-1])
 
 def is_eds_spectrum(frame):
-    eds = True if data_signal_type(frame) in ["EDS_TEM", "EDS_SEM"] else False
-    return eds
+    spectrum = True if data_signal_type(frame) in ["EDS_TEM", "EDS_SEM"] else False
+    return spectrum
 
 def eds_elements(data):
     element = []
@@ -33,6 +33,17 @@ def get_title(frame):
 
 def get_size(frame):
     return (frame["axes"][1]["size"], frame["axes"][0]["size"])
+
+def signal1d_data(frame):
+    offset = frame["axes"][0]["offset"]
+    scale = frame["axes"][0]["scale"]
+    size = frame["axes"][0]["size"]
+    x_data = np.arange(offset, scale*size+offset, scale)
+    y_data = frame["data"]
+    return np.asarray([x_data, y_data])
+
+def write_signal1d(file, data):
+    return np.savetxt(file, data, delimiter="\t")
 
 def create_cmp(color):
     return mcolors.LinearSegmentedColormap.from_list(

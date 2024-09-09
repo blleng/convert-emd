@@ -26,10 +26,17 @@ def convert_emd(file_name, data, output_type, scale_bar, sb_color, sb_x_start, s
         dim = frame["data"].ndim
         title = emdfun.get_title(frame)
 
+        if dim ==1:
+            save_file = open(output_name + title + "_" + str(i) + ".txt", "w", encoding = "utf-8")
+            save_file.write(frame["axes"][0]["name"] + "(" + frame["axes"][0]["units"] + ")" + "\t" +"Intensity(a.u.)" + "\n")
+            signal_data = emdfun.signal1d_data(frame).transpose()
+            emdfun.write_signal1d(save_file, signal_data)
+            save_file.close()
+
         if dim == 2:
             frame["data"] = emdfun.contrast_stretch(frame, stretch)
             cmp = "gray"
-            if overlay and not emdfun.is_eds_spectrum(frame):
+            if overlay:
                 if title in mapping_overlay: mapping_frame.append(i)
                 if title in eds_color:
                     cmp = emdfun.create_cmp(eds_color[title])
