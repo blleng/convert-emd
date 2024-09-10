@@ -65,6 +65,12 @@ def signal3d_to_1d_data(frame):
     y_data = frame["data"].sum(axis=(0, 1))
     return np.asarray([x_data, y_data]).transpose()
 
+def series_images(frame):
+    offset = frame["axes"][0]["offset"]
+    scale = frame["axes"][0]["scale"]
+    size = frame["axes"][0]["size"]
+    return np.arange(offset, scale*size+offset, scale)
+
 def write_signal1d(file, data):
     return np.savetxt(file, data, delimiter="\t")
 

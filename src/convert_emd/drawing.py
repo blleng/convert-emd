@@ -80,6 +80,8 @@ def convert_emd(file_name, data, output_type, scale_bar, sb_color, sb_x_start, s
             else:
                 cmp = "gray"
                 size_x, size_y = emdfun.get_size(frame)
+                split_frame = emdfun.series_images(frame)
+                split_unit = frame["axes"][0]["units"]
                 for i in range(frame["axes"][0]["size"]):
                     frame["data"][i] = emdfun.contrast_stretch(frame["data"][i], stretch)
                     plt.figure(figsize=(size_x/100, size_y/100), facecolor="black")
@@ -95,9 +97,9 @@ def convert_emd(file_name, data, output_type, scale_bar, sb_color, sb_x_start, s
                     plt.margins = (0, 0)
                     plt.axis("off")
                     if scale_bar == True:
-                        plt.savefig(output_name + title + "_" + str(i) + sb_text + output_type)
+                        plt.savefig(output_name + title + "_" + split_frame + split_unit + "_" + sb_text + output_type)
                     else:
-                        plt.savefig(output_name + title + "_" + str(i) + output_type)
+                        plt.savefig(output_name + title + "_" + split_frame + split_unit + output_type)
                     plt.close()
 
     if overlay:
