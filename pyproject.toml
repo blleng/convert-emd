@@ -1,11 +1,25 @@
 [build-system]
-requires = ["setuptools>=61.0"]
+requires = ["setuptools>=61"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "convert-emd"
-version = "0.2.5"
-dependencies = ["rosettasciio[all]>=0.6"]
+version = "0.3.0"
+keywords = [
+    "electron microscopy",
+    "python",
+    "eds",
+    "emd",
+    "img"
+]
+dependencies = [
+  "matplotlib>=3.7",
+  "h5py>=3.7",
+  "numba>=0.52",
+  "sparse>=0.15",
+  "scikit-image>=0.21",
+  "rosettasciio>=0.6"
+]
 authors = [
   { name="Bing-Liang Leng", email="leng.bl@sjtu.edu.cn" },
 ]
@@ -16,6 +30,9 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Physics",
+    "Topic :: Scientific/Engineering :: Chemistry"
 ]
 
 [project.urls]
