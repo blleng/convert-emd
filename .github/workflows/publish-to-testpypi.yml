@@ -18,16 +18,13 @@ jobs:
           python-version: 3.12
 
       - name: Install pypa/build
-        run: >-
-          python -m
-          pip install
-          build toml
-          --user
+        run:
+          python -m pip install build toml --user
 
       - name: Build a binary wheel and a source tarball
-        run: >-
-          - python dev.py
-          - python -m build --sdist --wheel --outdir dist/
+        run: |
+          python dev.py
+          python -m build --sdist --wheel --outdir dist/
 
       - name: Publish distribution 📦 to Test PyPI
         uses: pypa/gh-action-pypi-publish@master
