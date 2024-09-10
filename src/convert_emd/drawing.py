@@ -97,9 +97,9 @@ def convert_emd(file_name, data, output_type, scale_bar, sb_color, sb_x_start, s
                     plt.margins = (0, 0)
                     plt.axis("off")
                     if scale_bar == True:
-                        plt.savefig(output_name + title + "_" + str(split_frame) + split_unit + "_" + sb_text + output_type)
+                        plt.savefig(output_name + title + "_" + str(split_frame[i]) + split_unit + "_" + sb_text + output_type)
                     else:
-                        plt.savefig(output_name + title + "_" + str(split_frame) + split_unit + output_type)
+                        plt.savefig(output_name + title + "_" + str(split_frame[i]) + split_unit + output_type)
                     plt.close()
 
     if overlay:
