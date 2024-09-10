@@ -36,7 +36,7 @@ def convert_emd(file_name, data, output_type, scale_bar, sb_color, sb_x_start, s
             save_file.close()
 
         if dim == 2:
-            frame["data"] = emdfun.contrast_stretch(frame, stretch)
+            frame["data"] = emdfun.contrast_stretch(frame["data"], stretch)
             cmp = "gray"
             if overlay:
                 if title in mapping_overlay: mapping_frame.append(i)
@@ -51,7 +51,7 @@ def convert_emd(file_name, data, output_type, scale_bar, sb_color, sb_x_start, s
                     ele += 1
                     if ele > 9: ele = 0
 
-            size_x, size_y = (frame["axes"][1]["size"], frame["axes"][0]["size"])
+            size_x, size_y = emdfun.get_size(frame)
             plt.figure(figsize=(size_x/100, size_y/100), facecolor="black")
             ax = plt.gca()
             plt.imshow(frame["data"], cmap=cmp)
@@ -70,12 +70,35 @@ def convert_emd(file_name, data, output_type, scale_bar, sb_color, sb_x_start, s
                 plt.savefig(output_name + title + "_" + str(i) + output_type)
             plt.close()
         
-        if dim == 3 and emdfun.is_eds_spectrum(frame):
-            save_file = open(output_name + title + "_" + str(i) + ".txt", "w", encoding = "utf-8")
-            save_file.write(frame["axes"][2]["name"] + "(" + frame["axes"][2]["units"] + ")" + "\t" +"Intensity(a.u.)" + "\n")
-            signal_data = emdfun.signal3d_to_1d_data(frame)
-            emdfun.write_signal1d(save_file, signal_data)
-            save_file.close()
+        if dim == 3:
+            if emdfun.is_eds_spectrum(frame):
+                save_file = open(output_name + title + "_" + str(i) + ".txt", "w", encoding = "utf-8")
+                save_file.write(frame["axes"][2]["name"] + "(" + frame["axes"][2]["units"] + ")" + "\t" +"Intensity(a.u.)" + "\n")
+                signal_data = emdfun.signal3d_to_1d_data(frame)
+                emdfun.write_signal1d(save_file, signal_data)
+                save_file.close()
+            else:
+                cmp = "gray"
+                size_x, size_y = emdfun.get_size(frame)
+                for i in range(frame["axes"][0]["size"]):
+                    frame["data"][i] = emdfun.contrast_stretch(frame["data"][i], stretch)
+                    plt.figure(figsize=(size_x/100, size_y/100), facecolor="black")
+                    ax = plt.gca()
+                    plt.imshow(frame["data"][i], cmap=cmp)
+
+                    if scale_bar == True:
+                        bar = draw_scale_bar(frame, size_x, size_y, sb_x_start, sb_y_start, sb_width_factor, sb_color)
+                        ax.add_patch(bar[0])
+                        sb_text = bar[1]
+
+                    plt.subplots_adjust(top=1, bottom=0, right=1, left=0, hspace=0, wspace=0)
+                    plt.margins = (0, 0)
+                    plt.axis("off")
+                    if scale_bar == True:
+                        plt.savefig(output_name + title + "_" + str(i) + sb_text + output_type)
+                    else:
+                        plt.savefig(output_name + title + "_" + str(i) + output_type)
+                    plt.close()
 
     if overlay:
         element = ""

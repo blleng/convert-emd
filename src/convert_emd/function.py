@@ -41,13 +41,13 @@ def eds_elements(data):
     return element
 
 def get_scale(frame):
-    return (frame["axes"][1]["scale"], frame["axes"][1]["units"])
+    return (frame["axes"][-1]["scale"], frame["axes"][-1]["units"])
 
 def get_title(frame):
     return frame["metadata"]["General"]["title"]
 
 def get_size(frame):
-    return (frame["axes"][1]["size"], frame["axes"][0]["size"])
+    return (frame["axes"][-1]["size"], frame["axes"][-2]["size"])
 
 def signal1d_data(frame):
     offset = frame["axes"][0]["offset"]
@@ -76,6 +76,6 @@ def create_cmp(color):
 def default_colors():
     return list(mcolors.TABLEAU_COLORS.values())
 
-def contrast_stretch(frame, stretch):
-    low_constrain, high_constrain = np.percentile(frame["data"], (stretch[0], stretch[1]))
-    return exposure.rescale_intensity(frame["data"], in_range=(low_constrain, high_constrain))
+def contrast_stretch(data, stretch):
+    low_constrain, high_constrain = np.percentile(data, (stretch[0], stretch[1]))
+    return exposure.rescale_intensity(data, in_range=(low_constrain, high_constrain))
