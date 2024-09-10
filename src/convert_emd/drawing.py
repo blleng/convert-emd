@@ -1,15 +1,17 @@
 import os
+import re
 import matplotlib.pyplot as plt
 import convert_emd.function as emdfun
 
 def draw_scale_bar(frame, size_x, size_y, sb_x_start, sb_y_start, width_factor, sb_color):
     sb_lst = [0.1,0.2,0.5,1,2,5,10,20,50,100,200,500,1000,2000,5000]
     scale, unit = emdfun.get_scale(frame)
+    if " / " in unit: unit = re.sub(r" / ", "_", unit)
     sb_len_float = size_x * scale / 6
     sb_len = sorted(sb_lst, key=lambda a: abs(a - sb_len_float))[0]
     sb_len_px = sb_len / scale
     sb_start_x, sb_start_y, sb_width = (size_x * sb_x_start , size_y * sb_y_start, size_y / width_factor)
-    return [plt.Rectangle((sb_start_x, sb_start_y), sb_len_px, sb_width, color=sb_color, fill=True), "_" + str(sb_len) + unit]
+    return [plt.Rectangle((sb_start_x, sb_start_y), sb_len_px, sb_width, color=sb_color, fill=True), "_" + str(sb_len) + "(" + unit + ")"]
 
 def convert_emd(file_name, data, output_type, scale_bar, sb_color, sb_x_start, sb_y_start, sb_width_factor, stretch, overlay_alpha, sub_alpha, eds_color, mapping_overlay, overlay):
     output_dir = file_name + "/"
