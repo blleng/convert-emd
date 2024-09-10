@@ -13,12 +13,11 @@ keywords = [
     "img"
 ]
 dependencies = [
+  "matplotlib>=3.7",
+  "h5py>=3.7",
+  "sparse>=0.15",
+  "scikit-image>=0.21",
   "rosettasciio[speed]>=0.6",
-  "scikit-image>=0.18",
-  "h5py>=2.3",
-  "matplotlib>=3.5",
-  "numpy >=1.20",
-  "sparse"
 ]
 authors = [
   { name="Bing-Liang Leng", email="leng.bl@sjtu.edu.cn" },
