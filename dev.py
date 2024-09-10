@@ -1,9 +1,8 @@
-import datetime
-import toml
-
 developing = True
 
 if developing:
+    import datetime
+    import toml
     time_now = datetime.datetime.now().strftime("%y%m%d%H%M%S")
     f = open("pyproject.toml", "r")
     data = toml.load(f)
