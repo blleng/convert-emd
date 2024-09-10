@@ -26,6 +26,7 @@ jobs:
 
       - name: Build a binary wheel and a source tarball
         run: >-
+          python dev.py
           python -m
           build
           --sdist

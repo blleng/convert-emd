@@ -1,10 +1,25 @@
 import matplotlib.colors as mcolors
 import numpy as np
 from skimage import exposure
-from rsciio.emd import file_reader
+from rsciio.emd._emd_velox import FeiEMDReader
+import h5py as h5
 
 def get_data(file_name):
-    return file_reader(file_name + ".emd")
+    file = h5.File(file_name + ".emd","r")
+    emd_reader = FeiEMDReader(
+        lazy = False,
+        select_type = None,
+        first_frame = 0,
+        last_frame = None,
+        sum_frames = True,
+        sum_EDS_detectors = True,
+        rebin_energy = 1,
+        SI_dtype = None,
+        load_SI_image_stack = False,
+    )
+    emd_reader.read_file(file)
+    data = emd_reader.dictionaries
+    return data
 
 def data_signal_type(frame):
     return frame["metadata"]["Signal"]["signal_type"]
@@ -40,7 +55,7 @@ def signal1d_data(frame):
     size = frame["axes"][0]["size"]
     x_data = np.arange(offset, scale*size+offset, scale)
     y_data = frame["data"]
-    return np.asarray([x_data, y_data])
+    return np.asarray([x_data, y_data]).transpose()
 
 def signal3d_to_1d_data(frame):
     offset = frame["axes"][2]["offset"]
@@ -48,7 +63,7 @@ def signal3d_to_1d_data(frame):
     size = frame["axes"][2]["size"]
     x_data = np.arange(offset, scale*size+offset, scale)
     y_data = frame["data"].sum(axis=(0, 1))
-    return np.asarray([x_data, y_data])
+    return np.asarray([x_data, y_data]).transpose()
 
 def write_signal1d(file, data):
     return np.savetxt(file, data, delimiter="\t")
