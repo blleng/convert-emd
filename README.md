@@ -1,6 +1,6 @@
 # Convert-EMD
 
-This script converts 2D signal in .emd files into images.
+Convert-EMD exports images and spectrum data from Velox generated EMD files.
 
 This project is based on [RosettaSciIO](https://github.com/hyperspy/rosettasciio) and [emd-converter](https://github.com/matao1984/emd-converter)
 
