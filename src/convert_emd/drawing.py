@@ -15,8 +15,6 @@ def draw_scale_bar(frame, size_x, size_y, sb_x_start, sb_y_start, width_factor, 
 
 def convert_emd(file_name, data, output_type, scale_bar, sb_color, sb_x_start, sb_y_start, sb_width_factor, stretch, overlay_alpha, sub_alpha, eds_color, mapping_overlay, overlay):
     output_dir = file_name + "/"
-    output_name = output_dir + file_name + "_"
-
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
     mapping_frame = []
@@ -30,7 +28,7 @@ def convert_emd(file_name, data, output_type, scale_bar, sb_color, sb_x_start, s
         title_attr = "_" + str(i) + "_"
 
         if dim ==1:
-            save_file = open(output_name + title + title_attr + ".txt", "w", encoding = "utf-8")
+            save_file = open(output_dir + title + title_attr + ".txt", "w", encoding = "utf-8")
             save_file.write(frame["axes"][0]["name"] + "(" + frame["axes"][0]["units"] + ")" + "\t" +"Intensity(a.u.)" + "\n")
             signal_data = emdfun.signal1d_data(frame)
             emdfun.write_signal1d(save_file, signal_data)
@@ -57,6 +55,7 @@ def convert_emd(file_name, data, output_type, scale_bar, sb_color, sb_x_start, s
                 title_attr = title_attr + "/"
                 if not os.path.exists(output_dir + title + title_attr):
                     os.makedirs(output_dir + title + title_attr)
+                title_attr = "/" + title_attr
             else: idata = [frame["data"]]
 
             for j in range(len(idata)):
@@ -75,14 +74,14 @@ def convert_emd(file_name, data, output_type, scale_bar, sb_color, sb_x_start, s
                 plt.margins = (0, 0)
                 plt.axis("off")
                 if scale_bar == True:
-                    plt.savefig(output_name + title + title_attr + str(j) + sb_text + output_type)
+                    plt.savefig(output_dir + title + title_attr + str(j) + sb_text + output_type)
                 else:
-                    plt.savefig(output_name + title + title_attr + str(j) + output_type)
+                    plt.savefig(output_dir + title + title_attr + str(j) + output_type)
                 plt.close()
 
         if dim == 3:
             if emdfun.is_eds_spectrum(frame):
-                save_file = open(output_name + title + title_attr + ".txt", "w", encoding = "utf-8")
+                save_file = open(output_dir + title + title_attr + ".txt", "w", encoding = "utf-8")
                 save_file.write(frame["axes"][2]["name"] + "(" + frame["axes"][2]["units"] + ")" + "\t" +"Intensity(a.u.)" + "\n")
                 signal_data = emdfun.signal3d_to_1d_data(frame)
                 emdfun.write_signal1d(save_file, signal_data)
@@ -107,9 +106,9 @@ def convert_emd(file_name, data, output_type, scale_bar, sb_color, sb_x_start, s
                     plt.margins = (0, 0)
                     plt.axis("off")
                     if scale_bar == True:
-                        plt.savefig(output_name + title + title_attr + str(split_frame[i])[:6] + split_unit + sb_text + output_type)
+                        plt.savefig(output_dir + title + title_attr + str(split_frame[i])[:6] + split_unit + sb_text + output_type)
                     else:
-                        plt.savefig(output_name + title + title_attr + str(split_frame[i])[:6] + split_unit + output_type)
+                        plt.savefig(output_dir + title + title_attr + str(split_frame[i])[:6] + split_unit + output_type)
                     plt.close()
 
     if overlay:
@@ -138,7 +137,7 @@ def convert_emd(file_name, data, output_type, scale_bar, sb_color, sb_x_start, s
         plt.margins = (0, 0)
         plt.axis("off")
         if scale_bar == True:
-            plt.savefig(output_name + "Overlay" + element + sb_text + output_type)
+            plt.savefig(output_dir + "Overlay" + element + sb_text + output_type)
         else:
-            plt.savefig(output_name + "Overlay" + element + output_type)
+            plt.savefig(output_dir + "Overlay" + element + output_type)
         plt.close()
