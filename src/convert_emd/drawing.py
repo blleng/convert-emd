@@ -48,14 +48,14 @@ def convert_emd(file_name, data, output_type, scale_bar, sb_color, sb_x_start, s
                     eds_color[title] = default_colors[ele]
                     ele += 1
                     if ele > 9: ele = 0
-            
+
             is_complex = True if frame["data"].dtype == "complex64" else False
             if is_complex:
                 idata = [frame["data"].real, frame["data"].imag]
             else: idata = [frame["data"]]
 
             for j in range(len(idata)):
-                if is_complex: idata[j] = emdfun.contrast_stretch(idata[j], stretch)
+                if not is_complex: idata[j] = emdfun.contrast_stretch(idata[j], stretch)
                 cmp = "gray"
                 size_x, size_y = emdfun.get_size(frame)
                 plt.figure(figsize=(size_x/100, size_y/100), facecolor="black")
