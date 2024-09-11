@@ -36,8 +36,6 @@ def convert_emd(file_name, data, output_type, scale_bar, sb_color, sb_x_start, s
             save_file.close()
 
         if dim == 2:
-            frame["data"] = emdfun.contrast_stretch(frame["data"], stretch)
-            cmp = "gray"
             if overlay:
                 if title in mapping_overlay: mapping_frame.append(i)
                 if title in eds_color:
@@ -50,26 +48,34 @@ def convert_emd(file_name, data, output_type, scale_bar, sb_color, sb_x_start, s
                     eds_color[title] = default_colors[ele]
                     ele += 1
                     if ele > 9: ele = 0
-
-            size_x, size_y = emdfun.get_size(frame)
-            plt.figure(figsize=(size_x/100, size_y/100), facecolor="black")
-            ax = plt.gca()
-            plt.imshow(frame["data"], cmap=cmp)
-
-            if scale_bar == True:
-                bar = draw_scale_bar(frame, size_x, size_y, sb_x_start, sb_y_start, sb_width_factor, sb_color)
-                ax.add_patch(bar[0])
-                sb_text = bar[1]
             
-            plt.subplots_adjust(top=1, bottom=0, right=1, left=0, hspace=0, wspace=0)
-            plt.margins = (0, 0)
-            plt.axis("off")
-            if scale_bar == True:
-                plt.savefig(output_name + title + "_" + str(i) + sb_text + output_type)
-            else:
-                plt.savefig(output_name + title + "_" + str(i) + output_type)
-            plt.close()
-        
+            is_complex = True if frame["data"].dtype == "complex64" else False
+            if is_complex:
+                idata = [frame["data"].real, frame["data"].imag]
+            else: idata = [frame["data"]]
+
+            for j in range(len(idata)):
+                if is_complex: idata[j] = emdfun.contrast_stretch(idata[j], stretch)
+                cmp = "gray"
+                size_x, size_y = emdfun.get_size(frame)
+                plt.figure(figsize=(size_x/100, size_y/100), facecolor="black")
+                ax = plt.gca()
+                plt.imshow(idata[j], cmap=cmp)
+
+                if scale_bar == True:
+                    bar = draw_scale_bar(frame, size_x, size_y, sb_x_start, sb_y_start, sb_width_factor, sb_color)
+                    ax.add_patch(bar[0])
+                    sb_text = bar[1]
+
+                plt.subplots_adjust(top=1, bottom=0, right=1, left=0, hspace=0, wspace=0)
+                plt.margins = (0, 0)
+                plt.axis("off")
+                if scale_bar == True:
+                    plt.savefig(output_name + title + "_" + str(i) + "_" + str(j) + sb_text + output_type)
+                else:
+                    plt.savefig(output_name + title + "_" + str(i) + "_" + str(j) + output_type)
+                plt.close()
+
         if dim == 3:
             if emdfun.is_eds_spectrum(frame):
                 save_file = open(output_name + title + "_" + str(i) + ".txt", "w", encoding = "utf-8")
