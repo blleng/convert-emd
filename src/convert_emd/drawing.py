@@ -37,6 +37,7 @@ def convert_emd(file_name, data, output_type, scale_bar, sb_color, sb_x_start, s
             save_file.close()
 
         if dim == 2:
+            cmp = "gray"
             if overlay:
                 if title in mapping_overlay: mapping_frame.append(i)
                 if title in eds_color:
@@ -58,7 +59,6 @@ def convert_emd(file_name, data, output_type, scale_bar, sb_color, sb_x_start, s
 
             for j in range(len(idata)):
                 if not is_complex: idata[j] = emdfun.contrast_stretch(idata[j], stretch)
-                cmp = "gray"
                 size_x, size_y = emdfun.get_size(frame)
                 plt.figure(figsize=(size_x/100, size_y/100), facecolor="black")
                 ax = plt.gca()
@@ -117,11 +117,13 @@ def convert_emd(file_name, data, output_type, scale_bar, sb_color, sb_x_start, s
 
         plt.figure(figsize=(size_x/100, size_y/100), facecolor="black")
         ax = plt.gca()
+        HAADF_frame["data"] = emdfun.contrast_stretch(HAADF_frame["data"], stretch)
         plt.imshow(HAADF_frame["data"], cmap="gray", alpha=sub_alpha)
         for i in range(len(mapping_frame)):
             if i == HAADF_frame_num:
                 continue
             title = emdfun.get_title(data[mapping_frame[i]])
+            data[mapping_frame[i]]["data"] = emdfun.contrast_stretch(data[mapping_frame[i]]["data"], stretch)
             plt.imshow(data[mapping_frame[i]]["data"], cmap = emdfun.create_cmp(eds_color[title]), alpha = overlay_alpha)
             element = element + "_" + title
 
