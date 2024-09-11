@@ -55,6 +55,8 @@ def convert_emd(file_name, data, output_type, scale_bar, sb_color, sb_x_start, s
             if is_complex:
                 idata = [frame["data"].real, frame["data"].imag]
                 title_attr = title_attr + "/"
+                if not os.path.exists(output_dir + title + title_attr):
+                    os.makedirs(output_dir + title + title_attr)
             else: idata = [frame["data"]]
 
             for j in range(len(idata)):
