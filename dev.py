@@ -1,4 +1,4 @@
-developing = True
+developing = False
 
 if developing:
     import datetime
