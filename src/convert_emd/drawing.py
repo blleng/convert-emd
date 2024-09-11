@@ -26,7 +26,7 @@ def convert_emd(file_name, data, output_type, scale_bar, sb_color, sb_x_start, s
     for i in range(len(data)):
         frame = data[i]
         dim = frame["data"].ndim
-        title = emdfun.get_title(frame)
+        title = emdfun.get_title(frame) + "_" + str(i) + "_"
 
         if dim ==1:
             save_file = open(output_name + title + "_" + str(i) + ".txt", "w", encoding = "utf-8")
@@ -52,6 +52,7 @@ def convert_emd(file_name, data, output_type, scale_bar, sb_color, sb_x_start, s
             is_complex = True if frame["data"].dtype == "complex64" else False
             if is_complex:
                 idata = [frame["data"].real, frame["data"].imag]
+                title = title + "/"
             else: idata = [frame["data"]]
 
             for j in range(len(idata)):
@@ -71,14 +72,14 @@ def convert_emd(file_name, data, output_type, scale_bar, sb_color, sb_x_start, s
                 plt.margins = (0, 0)
                 plt.axis("off")
                 if scale_bar == True:
-                    plt.savefig(output_name + title + "_" + str(i) + "_" + str(j) + sb_text + output_type)
+                    plt.savefig(output_name + title + str(j) + sb_text + output_type)
                 else:
-                    plt.savefig(output_name + title + "_" + str(i) + "_" + str(j) + output_type)
+                    plt.savefig(output_name + title + str(j) + output_type)
                 plt.close()
 
         if dim == 3:
             if emdfun.is_eds_spectrum(frame):
-                save_file = open(output_name + title + "_" + str(i) + ".txt", "w", encoding = "utf-8")
+                save_file = open(output_name + title + ".txt", "w", encoding = "utf-8")
                 save_file.write(frame["axes"][2]["name"] + "(" + frame["axes"][2]["units"] + ")" + "\t" +"Intensity(a.u.)" + "\n")
                 signal_data = emdfun.signal3d_to_1d_data(frame)
                 emdfun.write_signal1d(save_file, signal_data)
@@ -103,9 +104,9 @@ def convert_emd(file_name, data, output_type, scale_bar, sb_color, sb_x_start, s
                     plt.margins = (0, 0)
                     plt.axis("off")
                     if scale_bar == True:
-                        plt.savefig(output_name + title + "_" + str(split_frame[i])[:5] + split_unit + sb_text + output_type)
+                        plt.savefig(output_name + title + str(split_frame[i])[:6] + split_unit + sb_text + output_type)
                     else:
-                        plt.savefig(output_name + title + "_" + str(split_frame[i])[:5] + split_unit + output_type)
+                        plt.savefig(output_name + title + str(split_frame[i])[:6] + split_unit + output_type)
                     plt.close()
 
     if overlay:
