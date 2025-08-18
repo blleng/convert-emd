@@ -17,26 +17,24 @@ pip install convert-emd
 ## Usage
 
 ```bash
-cemd [-h] -f FILE [-o TYPE] [-ns] [-sc COLOR] [-s FLOAT FLOAT FLOAT] [-e Str [Str ...]] [-oe ELEMENT [ELEMENT ...]] [-oa ALPHA] [-sa ALPHA] [-c CONTRAST] [-i INT INT]
+cemd [-h] FILE [-o TYPE] [-ns] [-sc COLOR] [-s FLOAT FLOAT FLOAT] [-e Str [Str ...]] [-oe ELEMENT [ELEMENT ...]] [-oa ALPHA] [-sa ALPHA] [-c CONTRAST] [-i INT INT]
 ```
 
 ### Basic Usage
 
 ```bash
-cemd -f INPUT_FILE
+cemd INPUT_FILE
 ```
 
 Run `cemd -h` for more information.
-
-NOTICE: ".emd" extension should not be included into input filename. For example, if you want to convert "EXEAMPLE.emd", the input should be `cemd -f EXAMPLE` rather than `cemd -f EXAMPLE.emd`
 
 ### Output Type
 
 The `-o`/`--out` option allows users to choose the output image type (default: png).
 
 ```bash
-cemd -f INPUT_FILE -o png ## For PNG type
-cemd -f INPUT_FILE -o tif ## For TIF type
+cemd INPUT_FILE -o png ## For PNG type
+cemd INPUT_FILE -o tif ## For TIF type
 ...
 ```
 
@@ -47,7 +45,7 @@ cemd -f INPUT_FILE -o tif ## For TIF type
 The `-ns`/`--no_scale` option can be used to remove the scale bar in images.
 
 ```bash
-cemd -f INPUT_FILE -ns ## No scale bar will be shown
+cemd INPUT_FILE -ns ## No scale bar will be shown
 ```
 
 #### Color of Scale Bar
@@ -55,8 +53,8 @@ cemd -f INPUT_FILE -ns ## No scale bar will be shown
 The `-sc`/`--scale_color` option can be used to choose the color of the scale bar (default: white).
 
 ```bash
-cemd -f INPUT_FILE -sc black ## Black scale bar
-cemd -f INPUT_FILE -sc "#000000" ## Hex code can also be used
+cemd INPUT_FILE -sc black ## Black scale bar
+cemd INPUT_FILE -sc "#000000" ## Hex code can also be used
 ```
 
 #### Position and Width of Scale Bar
@@ -64,7 +62,7 @@ cemd -f INPUT_FILE -sc "#000000" ## Hex code can also be used
 The `-s`/`--scale` option can be used to adjust the postion and width of scale bar (default: x: 0.75, y: 0.9167, width-factor: 150)
 
 ```bash
-cemd -f INPUT_FILE -s X Y WIDTH
+cemd INPUT_FILE -s X Y WIDTH
 ```
 
 NOTICE: Three arguments are required to specify the position and width of scale bar.
@@ -79,12 +77,13 @@ NOTICE: Three arguments are required to specify the position and width of scale 
 
 Default colors of elemental mapppings are corresponding to the following list in sequnce (*Matplotlib* default colors):
 
-<font color=#1f77b4>1f77b4</font>, <font color=#ff7f0e>ff7f0e</font>, <font color=#2ca02c>2ca02c</font>, <font color=#d62728>d62728</font>, <font color=#9467bd>9467bd</font>, <font color=#8c564b>8c564b</font>, <font color=#e377c2>e377c2</font>, <font color=7f7f7f>7f7f7f</font>, <font color=#bcbd22>bcbd22</font>, <font color=#17becf>17becf</font>
+<font color=#1f77b4>#1f77b4</font>, <font color=#ff7f0e>#ff7f0e</font>, <font color=#2ca02c>#2ca02c</font>, <font color=#d62728>#d62728</font>, <font color=#9467bd>#9467bd</font>, <font color=#8c564b>#8c564b</font>, <font color=#e377c2>#e377c2</font>, <font color=7f7f7f>#7f7f7f</font>, <font color=#bcbd22>#bcbd22</font>, <font color=#17becf>#17becf</font>
 
 Convert-EMD provides `-e`/`--eds` option for users to customize the color of elemental mappings.
 
 ```bash
-cemd -f INPUT_FILE -e ELEMENT_1 COLOR_1 ELEMENT_2 COLOR_2 ELEMENT_3 COLOR_3 ...
+cemd INPUT_FILE -e ELEMENT_1 COLOR_1 ELEMENT_2 COLOR_2 ELEMENT_3 COLOR_3 ...
+# For example: cemd test.emd -e C "#fff000"
 ```
 
 NOTICE: You don't need to specify all elemental colors, those undefined ones will be set according to the default color list.
@@ -94,7 +93,7 @@ NOTICE: You don't need to specify all elemental colors, those undefined ones wil
 The `-oe`/`--overlay` option decides which elements are overlyed (default: all).
 
 ```bash
-cemd -f INPUT_FILE -oe ELEMENT_1 ElEMENT_2 ...
+cemd INPUT_FILE -oe ELEMENT_1 ElEMENT_2 ...
 ```
 
 Moreover, `-oa`/`--overlay_alpha` and `-sa`/`--substrate_alpha` options are provided to adjust the transparency of elemental layers (default: 1.0) and the HAADF layer (default: 0.5) respectively. The argument should be a float number between 0 and 1, 0 means totally transparent.
@@ -106,5 +105,5 @@ To improve the contrast (especially for HR-TEM), the `-c`/`--contrast` option is
 With this method, the image is rescaled to include all intensities that fall within the given percentiles (default: min = 1, max = 99).
 
 ```bash
-cemd -f INPUT_FILE -c MIN MAX
+cemd INPUT_FILE -c MIN MAX
 ```
