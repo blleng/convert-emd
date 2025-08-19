@@ -4,6 +4,19 @@ from skimage import exposure
 from rsciio.emd._emd_velox import FeiEMDReader
 import h5py as h5
 
+element_table = ["H", "He", "Li", "Be", "B", "C", "N", "O", "F", "Ne",
+                 "Na", "Mg", "Al", "Si", "P", "S", "Cl", "Ar", "K", "Ca",
+                 "Sc", "Ti", "V", "Cr", "Mn", "Fe", "Co", "Ni", "Cu", "Zn",
+                 "Ga", "Ge", "As", "Se", "Br", "Kr", "Rb", "Sr", "Y", "Zr",
+                 "Nb", "Mo", "Tc", "Ru", "Rh", "Pd", "Ag", "Cd", "In", "Sn", 
+                 "Sb", "Te", "I", "Xe", "Cs", "Ba", "La", "Ce", "Pr", "Nd",
+                 "Pm", "Sm", "Eu", "Gd", "Tb", "Dy", "Ho", "Er", "Tm", "Yb", 
+                 "Lu", "Hf", "Ta", "W", "Re", "Os", "Ir", "Pt", "Au", "Hg", 
+                 "Tl", "Pb", "Bi", "Po", "At", "Rn", "Fr", "Ra", "Ac", "Th",
+                 "Pa", "U", "Np", "Pu", "Am", "Cm", "Bk", "Cf", "Es", "Fm", 
+                 "Md", "No", "Lr", "Rf", "Db", "Sg", "Bh", "Hs", "Mt", "Ds",
+                 "Rg", "Cn", "Nh", "Fl", "Mc", "Lv", "Ts", "Og"]
+
 def Get_data(file_name):
     file = h5.File(file_name,"r")
     emd_reader = FeiEMDReader(
@@ -35,9 +48,8 @@ def Eds_elements(data):
     element = []
     if Is_eds(data):
         for i in range(len(data)):
-            if Data_signal_type(data[i]) == "":
-                element.append(Get_title(data[i]))
-        if len(element) > 0: element.remove("HAADF")
+            frame_title = Get_title(data[i])
+            if frame_title in element_table: element.append(frame_title)
     return element
 
 def Get_scale(frame):
