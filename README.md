@@ -17,7 +17,7 @@ pip install convert-emd
 ## Usage
 
 ```bash
-cemd [-h] FILE [-o TYPE] [-ns] [-sc COLOR] [-s FLOAT FLOAT FLOAT] [-e Str [Str ...]] [-oe ELEMENT [ELEMENT ...]] [-oa ALPHA] [-sa ALPHA] [-c CONTRAST] [-i INT INT]
+cemd [-h] FILENAME [-o TYPE] [-ns] [-sc COLOR] [-s FLOAT FLOAT FLOAT] [-e ELEMENT COLOR [ELEMENT COLOR ...]] [-oe ELEMENT [ELEMENT ...]] [-oa FLOAT] [-sa FLOAT] [-c FLOAT FLOAT]
 ```
 
 ### Basic Usage
