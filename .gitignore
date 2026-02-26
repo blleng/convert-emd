@@ -1,6 +1,5 @@
 dist/
-src/convert_emd.egg-info
+*.egg-info/
 __pycache__/
 *.pyc
 *.pyo
-
