@@ -30,7 +30,7 @@ Run `cemd -h` for more information.
 
 ### Output Type
 
-The `-o`/`--out` option allows users to choose the output image type (default: png).
+The `-o`/`--out` option allows users to choose the output image type (default: tif).
 
 ```bash
 cemd INPUT_FILE -o png ## For PNG type
