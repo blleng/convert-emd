@@ -17,7 +17,7 @@ element_table = ["H", "He", "Li", "Be", "B", "C", "N", "O", "F", "Ne",
                  "Md", "No", "Lr", "Rf", "Db", "Sg", "Bh", "Hs", "Mt", "Ds",
                  "Rg", "Cn", "Nh", "Fl", "Mc", "Lv", "Ts", "Og"]
 
-def Get_data(file_name):
+def get_data(file_name):
     file = h5.File(file_name,"r")
     emd_reader = FeiEMDReader(
         lazy = False,
@@ -34,34 +34,34 @@ def Get_data(file_name):
     data = emd_reader.dictionaries
     return data
 
-def Data_signal_type(frame):
+def data_signal_type(frame):
     return frame["metadata"]["Signal"]["signal_type"]
 
-def Is_eds(data):
-    return Is_eds_spectrum(data[-1])
+def is_eds(data):
+    return is_eds_spectrum(data[-1])
 
-def Is_eds_spectrum(frame):
-    spectrum = True if Data_signal_type(frame) in ["EDS_TEM", "EDS_SEM"] else False
+def is_eds_spectrum(frame):
+    spectrum = True if data_signal_type(frame) in ["EDS_TEM", "EDS_SEM"] else False
     return spectrum
 
-def Eds_elements(data):
+def eds_elements(data):
     element = []
-    if Is_eds(data):
+    if is_eds(data):
         for i in range(len(data)):
-            frame_title = Get_title(data[i])
+            frame_title = get_title(data[i])
             if frame_title in element_table: element.append(frame_title)
     return element
 
-def Get_scale(frame):
+def get_scale(frame):
     return (frame["axes"][-1]["scale"], frame["axes"][-1]["units"])
 
-def Get_title(frame):
+def get_title(frame):
     return frame["metadata"]["General"]["title"]
 
-def Get_size(frame):
+def get_size(frame):
     return (frame["axes"][-1]["size"], frame["axes"][-2]["size"])
 
-def Signal1d_data(frame):
+def signal1d_data(frame):
     offset = frame["axes"][0]["offset"]
     scale = frame["axes"][0]["scale"]
     size = frame["axes"][0]["size"]
@@ -69,7 +69,7 @@ def Signal1d_data(frame):
     y_data = frame["data"]
     return np.asarray([x_data, y_data]).transpose()
 
-def Signal3d_to_1d_data(frame):
+def signal3d_to_1d_data(frame):
     offset = frame["axes"][2]["offset"]
     scale = frame["axes"][2]["scale"]
     size = frame["axes"][2]["size"]
@@ -77,23 +77,23 @@ def Signal3d_to_1d_data(frame):
     y_data = frame["data"].sum(axis=(0, 1))
     return np.asarray([x_data, y_data]).transpose()
 
-def Series_images(frame):
+def series_images(frame):
     offset = frame["axes"][0]["offset"]
     scale = frame["axes"][0]["scale"]
     size = frame["axes"][0]["size"]
     return np.arange(offset, scale*size+offset, scale)
 
-def Write_signal1d(file, data):
+def write_signal1d(file, data):
     return np.savetxt(file, data, delimiter="\t")
 
-def Create_cmp(color):
+def create_cmp(color):
     return mcolors.LinearSegmentedColormap.from_list(
         "", [mcolors.to_rgba(color, 0), mcolors.to_rgba(color, 1)]
     )
 
-def Default_colors():
+def default_colors():
     return list(mcolors.TABLEAU_COLORS.values())
 
-def Contrast_stretch(data, stretch):
+def contrast_stretch(data, stretch):
     low_constrain, high_constrain = np.percentile(data, (stretch[0], stretch[1]))
     return exposure.rescale_intensity(data, in_range=(low_constrain, high_constrain))
