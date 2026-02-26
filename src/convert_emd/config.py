@@ -3,7 +3,7 @@ from typing import List, Dict, Tuple
 
 @dataclass
 class ConvertConfig:
-    output_type: str = ".png"
+    output_type: str = ".tif"
     scale_bar: bool = True
     sb_color: str = "#ffffff"
     sb_x_start: float = 0.75
